@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="tab-title">Echoman Game Hub</title>
+    <link id="tab-favicon" rel="icon" href="https://google.com">
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0c; --card: #16161a; --text: #f0f0f0; --accent: #00ffcc; --featured: #1e293b; }
+        body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; transition: 0.3s; }
+        
+        .header { padding: 40px 20px; text-align: center; background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%); }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 3.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; margin: 0; text-shadow: 0 0 20px rgba(0, 255, 204, 0.4); }
+
+        .featured-area { display: flex; justify-content: center; gap: 20px; padding: 20px; background: var(--featured); border-bottom: 2px solid var(--accent); flex-wrap: wrap; }
+        .featured-btn { padding: 12px 25px; border-radius: 12px; font-family: 'Orbitron', sans-serif; text-decoration: none; font-weight: bold; transition: 0.3s; border: 2px solid var(--accent); font-size: 14px; }
+        .btn-retro { background: var(--accent); color: #000; }
+        .btn-code { background: transparent; color: var(--accent); }
+        .featured-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
+
+        .status-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; margin: 20px auto; max-width: 800px; border-left: 4px solid var(--accent); text-align: left; }
+        .status-box h4 { margin: 0 0 5px 0; color: var(--accent); font-family: 'Orbitron'; font-size: 14px; }
+        .status-box p { margin: 0; font-size: 15px; opacity: 0.8; }
+
+        .search-container { margin: 20px auto; max-width: 700px; padding: 0 20px; }
+        .search-bar { width: 100%; padding: 15px 25px; border-radius: 50px; border: 1px solid #333; background: #1f1f23; color: white; font-size: 18px; outline: none; box-sizing: border-box; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; list-style: none; padding: 20px 40px 80px 40px; max-width: 1400px; margin: 0 auto; }
+        .grid li { background: var(--card); border-radius: 12px; transition: 0.3s; border: 1px solid #2d2d35; }
+        .grid li:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .grid a { display: block; padding: 25px 15px; color: var(--text); text-decoration: none; text-align: center; font-weight: 600; font-size: 16px; }
+
+        .settings-btn { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: black; border: none; padding: 12px 20px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: bold; z-index: 1000; box-shadow: 0 0 10px var(--accent); }
+        #settings-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a1e; padding: 30px; border-radius: 15px; border: 2px solid var(--accent); z-index: 1001; width: 320px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        #settings-modal h2 { margin-top: 0; color: var(--accent); font-family: 'Orbitron'; font-size: 18px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+        input[type="text"] { width: 100%; padding: 10px; margin: 10px 0; background: #222; color: white; border: 1px solid #444; border-radius: 5px; box-sizing: border-box; }
+        .save-btn { width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay" id="overlay" onclick="toggleSettings()"></div>
+    <div id="settings-modal">
+        <h2>Tab Cloaking</h2>
+        <label>Tab Name:</label>
+        <input type="text" id="pref-title" placeholder="e.g. Google">
+        <label>Favicon URL:</label>
+        <input type="text" id="pref-icon" placeholder="e.g. https://google.com">
+        <button class="save-btn" onclick="saveSettings()">Apply Changes</button>
+    </div>
+    <button class="settings-btn" onclick="toggleSettings()">⚙️ CLOAK</button>
+    
+
+    <div class="featured-area">
+        <a href="offline/webretro-standalone.html" class="featured-btn btn-retro">🕹️ WEB-RETRO EMULATOR</a>
+        <a href="offline/codeeditor.html" class="featured-btn btn-code">💻 ONLINE CODE EDITOR</a>
+    </div>
+
+    <div class="header">
+        <h1>Echoman Game Hub</h1> <div class="header">
+        
+        <div class="status-box">
+            <h4>System Notice</h4>
+            <p>Last Updated 3/20/2026</p>
+            <p>Stay Tuned for More Updates</p>
+        </div>
+        <div class="search-container">
+            <input type="text" id="search" class="search-bar" placeholder="Search 300+ games..." onkeyup="filterGames()">
+        </div>
+    </div>
+
+    <ul class="grid" id="game-list">
+        <li><a href="offline/10minutestilldawn.html">10 Minutes Till Dawn</a></li>
+        <li><a href="offline/12minibattles.html">12 Mini Battles</a></li>
+        <li><a href="offline/1on1soccer.html">1 on 1 Soccer</a></li>
+        <li><a href="offline/1on1tennis.html">1 on 1 Tennis</a></li>
+        <li><a href="offline/1v1.lol.html">1v1.lol</a></li>
+        <li><a href="offline/2048.html">2048</a></li>
+        <li><a href="offline/2048cupcakes.html">2048 Cupcakes</a></li>
+        <li><a href="offline/3Dflightsimulator.html">3D Flight Simulator</a></li>
+        <li><a href="offline/8ballclassic.html">8 Ball Classic</a></li>
+        <li><a href="offline/agariolite.html">Agario Lite</a></li>
+        <li><a href="offline/awesometanks.html">Awesome Tanks</a></li>
+        <li><a href="offline/awesometanks2.html">Awesome Tanks 2</a></li>
+        <li><a href="offline/backrooms.html">Backrooms</a></li>
+        <li><a href="offline/baconmaydie.html">Bacon May Die</a></li>
+        <li><a href="offline/badicecream.html">Bad Ice Cream</a></li>
+        <li><a href="offline/badicecream2.html">Bad Ice Cream 2</a></li>
+        <li><a href="offline/badicecream3.html">Bad Ice Cream 3</a></li>
+        <li><a href="offline/badparenting.html">Bad Parenting</a></li>
+        <li><a href="offline/badpiggies.html">Bad Piggies</a></li>
+        <li><a href="offline/baldisbasics.html">Baldi's Basics</a></li>
+        <li><a href="offline/baseballbros.html">Baseball Bros</a></li>
+        <li><a href="offline/basketballlegends.html">Basketball Legends</a></li>
+        <li><a href="offline/basketballstars.html">Basketball Stars</a></li>
+        <li><a href="offline/basketbros.html">Basket Bros</a></li>
+        <li><a href="offline/basketrandom.html">Basket Random</a></li>
+        <li><a href="offline/bitlife.html">Bitlife</a></li>
+        <li><a href="offline/bitplanes.htm">Bitplanes</a></li>
+        <li><a href="offline/blockysnakes.html">Blocky Snakes</a></li>
+        <li><a href="offline/bloonsTD.html">Bloons TD</a></li>
+        <li><a href="offline/bloonsTD2.html">Bloons TD 2</a></li>
+        <li><a href="offline/bloonsTD3.html">Bloons TD 3</a></li>
+        <li><a href="offline/bloonsTD4.html">Bloons TD 4</a></li>
+        <li><a href="offline/bloonsTD5.html">Bloons TD 5</a></li>
+        <li><a href="offline/bloxorz.html">Bloxorz</a></li>
+        <li><a href="offline/blumgiracers.html">Blumgi Racers</a></li>
+        <li><a href="offline/blumgirocket.html">Blumgi Rocket</a></li>
+        <li><a href="offline/bobtherobber.html">Bob the Robber</a></li>
+        <li><a href="offline/bobtherobber2.html">Bob the Robber 2</a></li>
+        <li><a href="offline/bobtherobber5.html">Bob the Robber 5</a></li>
+        <li><a href="offline/bouncymotors.html">Bouncy Motors</a></li>
+        <li><a href="offline/bowmasters.html">Bowmasters</a></li>
+        <li><a href="offline/boxingrandom.htm">Boxing Random</a></li>
+        <li><a href="offline/breakingthebank.html">Breaking the Bank</a></li>
+        <li><a href="offline/bubbleshooter.html">Bubble Shooter</a></li>
+        <li><a href="offline/candycrush.html">Candy Crush</a></li>
+        <li><a href="offline/capybaraclicker.html">Capybara Clicker</a></li>
+        <li><a href="offline/cardrawing.html">Car Drawing</a></li>
+        <li><a href="offline/carkingarena.html">Car King Arena</a></li>
+        <li><a href="offline/celeste.html">Celeste</a></li>
+        <li><a href="offline/chess.html">Chess</a></li>
+        <li><a href="offline/choppyorc.html">Choppy Orc</a></li>
+        <li><a href="offline/circloO.html">CircloO</a></li>
+        <li><a href="offline/circloO2.html">CircloO 2</a></li>
+        <li><a href="offline/clashofvikings.html">Clash of Vikings</a></li>
+        <li><a href="offline/cleanupio.html">Cleanup.io</a></li>
+        <li><a href="offline/clusterrush.html">Cluster Rush</a></li>
+        <li><a href="offline/cookieclicker.htm">Cookie Clicker</a></li>
+        <li><a href="offline/crazycars.html">Crazy Cars</a></li>
+        <li><a href="offline/crazycattle3D.html">Crazy Cattle 3D</a></li>
+        <li><a href="offline/crazycrashlanding.html">Crazy Crash Landing</a></li>
+        <li><a href="offline/crazymotorcycle.html">Crazy Motorcycle</a></li>
+        <li><a href="offline/crossyroad.htm">Crossy Road</a></li>
+        <li><a href="offline/cuttherope.html">Cut the Rope</a></li>
+        <li><a href="offline/dadish.html">Dadish</a></li>
+        <li><a href="offline/dadish2.html">Dadish 2</a></li>
+        <li><a href="offline/dadish3.html">Dadish 3</a></li>
+        <li><a href="offline/deathchase.html">Death Chase</a></li>
+        <li><a href="offline/deathrun3D.html">Death Run 3D</a></li>
+        <li><a href="offline/demolitionderbycrashracing.html">Demolition Derby Crash Racing</a></li>
+        <li><a href="offline/doodlejump.html">Doodle Jump</a></li>
+        <li><a href="offline/drawclimber.html">Draw Climber</a></li>
+        <li><a href="offline/dreadheadparkour.htm">Dreadhead Parkour</a></li>
+        <li><a href="offline/driftboss.htm">Drift Boss</a></li>
+        <li><a href="offline/drivemad.htm">Drive Mad</a></li>
+        <li><a href="offline/ducklife.html">Duck Life</a></li>
+        <li><a href="offline/ducklife2.html">Duck Life 2</a></li>
+        <li><a href="offline/ducklife3.html">Duck Life 3</a></li>
+        <li><a href="offline/ducklife4.html">Duck Life 4</a></li>
+        <li><a href="offline/ducklife5.html">Duck Life 5</a></li>
+        <li><a href="offline/ducklingsio.html">Ducklings.io</a></li>
+        <li><a href="offline/eagleride.html">Eagle Ride</a></li>
+        <li><a href="offline/earntodie.html">Earn to Die</a></li>
+        <li><a href="offline/earntodie2.html">Earn to Die 2</a></li>
+        <li><a href="offline/eggycar.html">Eggy Car</a></li>
+        <li><a href="offline/elasticface.htm">Elastic Face</a></li>
+        <li><a href="offline/escaperoad.html">Escape Road</a></li>
+        <li><a href="offline/escaperoad2.html">Escape Road 2</a></li>
+        <li><a href="offline/escapingtheprison.html">Escaping the Prison</a></li>
+        <li><a href="offline/evilglitch.html">Evil Glitch</a></li>
+        <li><a href="offline/fancypantsadventure.html">Fancy Pants Adventure</a></li>
+        <li><a href="offline/fancypantsadventure2.html">Fancy Pants Adventure 2</a></li>
+        <li><a href="offline/fireboyandwatergirl.html">Fireboy and Watergirl</a></li>
+        <li><a href="offline/fireboyandwatergirl2.html">Fireboy and Watergirl 2</a></li>
+        <li><a href="offline/fireboyandwatergirl3.html">Fireboy and Watergirl 3</a></li>
+        <li><a href="offline/fireboyandwatergirl4.html">Fireboy and Watergirl 4</a></li>
+        <li><a href="offline/flappybird.html">Flappy Bird</a></li>
+        <li><a href="offline/floodrunner2.html">Flood Runner 2</a></li>
+        <li><a href="offline/floodrunner3.html">Flood Runner 3</a></li>
+        <li><a href="offline/floodrunner4.html">Flood Runner 4</a></li>
+        <li><a href="offline/fnaf.html">FNAF</a></li>
+        <li><a href="offline/fnaf2.html">FNAF 2</a></li>
+        <li><a href="offline/fnaf3.html">FNAF 3</a></li>
+        <li><a href="offline/fnaf4.html">FNAF 4</a></li>
+        <li><a href="offline/footballbros.html">Football Bros</a></li>
+        <li><a href="offline/footballlegends.html">Football Legends</a></li>
+        <li><a href="offline/freerider3.html">Free Rider 3</a></li>
+        <li><a href="offline/fruitninja.html">Fruit Ninja</a></li>
+        <li><a href="offline/funnybattle.html">Funny Battle</a></li>
+        <li><a href="offline/funnybattle2.html">Funny Battle 2</a></li>
+        <li><a href="offline/funnymadracing.html">Funny Mad Racing</a></li>
+        <li><a href="offline/funnyshooter2.html">Funny Shooter 2</a></li>
+        <li><a href="offline/geometrydash.html">Geometry Dash</a></li>
+        <li><a href="offline/geometrydashlite.html">Geometry Dash Lite</a></li>
+        <li><a href="offline/geometryvibes.html">Geometry Vibes</a></li>
+        <li><a href="offline/getawayshootout.htm">Getaway Shootout</a></li>
+        <li><a href="offline/getontop.html">Get on Top</a></li>
+        <li><a href="offline/gladihoppers.html">Gladihoppers</a></li>
+        <li><a href="offline/googlebaseball.html">Google Baseball</a></li>
+        <li><a href="offline/googledino.html">Google Dino</a></li>
+        <li><a href="offline/granny.html">Granny</a></li>
+        <li><a href="offline/granny2.html">Granny 2</a></li>
+        <li><a href="offline/guesstheiranswer.html">Guess Their Answer</a></li>
+        <li><a href="offline/hanger2.html">Hanger 2</a></li>
+        <li><a href="offline/happywheels.html">Happy Wheels</a></li>
+        <li><a href="offline/helixjump.html">Helix Jump</a></li>
+        <li><a href="offline/highwaytraffic.html">Highway Traffic</a></li>
+        <li><a href="offline/hillclimbracinglite.html">Hill Climb Racing Lite</a></li>
+        <li><a href="offline/holeio.html">Hole.io</a></li>
+        <li><a href="offline/houseofhazards.html">House of Hazards</a></li>
+        <li><a href="offline/hoverracerdrive.html">Hover Racer Drive</a></li>
+        <li><a href="offline/idlebreakout.html">Idle Breakout</a></li>
+        <li><a href="offline/ironsnout.html">Iron Snout</a></li>
+        <li><a href="offline/jetpackjoyride.html">Jetpack Joyride</a></li>
+        <li><a href="offline/johnnytrigger.html">Johnny Trigger</a></li>
+        <li><a href="offline/jumpingshell.html">Jumping Shell</a></li>
+        <li><a href="offline/karatebros.html">Karate Bros</a></li>
+        <li><a href="offline/kartbros.html">Kart Bros</a></li>
+        <li><a href="offline/learntofly.html">Learn to Fly</a></li>
+        <li><a href="offline/learntofly2.html">Learn to Fly 2</a></li>
+        <li><a href="offline/learntofly3.html">Learn to Fly 3</a></li>
+        <li><a href="offline/learntoflyidle.html">Learn to Fly Idle</a></li>
+        <li><a href="offline/leveldevil.html">Level Devil</a></li>
+        <li><a href="offline/madalinstuntcars2.html">Madalin Stunt Cars 2</a></li>
+        <li><a href="offline/melonplayground.html">Melon Playground</a></li>
+        <li><a href="offline/mergeroundracers.html">Merge Round Racers</a></li>
+        <li><a href="offline/minesweeper.html">Minesweeper</a></li>
+        <li><a href="offline/1.12.html">Minecraft 1.12</a></li>
+        <li><a href="offline/1.5.html">Minecraft 1.5</a></li>
+        <li><a href="offline/1.8.html">Minecraft 1.8</a></li>
+        <li><a href="offline/Alpha_1.2.6.html">Minecraft Alpha 1.2.6</a></li>
+        <li><a href="offline/Beta_1.3.html">Minecraft Beta 1.3</a></li>
+        <li><a href="offline/Indev.html">Minecraft Indev</a></li>
+        <li><a href="offline/monkeymart.htm">Monkey Mart</a></li>
+        <li><a href="offline/monstertracks.html">Monster Tracks</a></li>
+        <li><a href="offline/motox3m.htm">Moto X3M</a></li>
+        <li><a href="offline/motox3m2.html">Moto X3M 2</a></li>
+        <li><a href="offline/motox3m3.html">Moto X3M 3</a></li>
+        <li><a href="offline/motox3mpoolparty.html">Moto X3M Pool Party</a></li>
+        <li><a href="offline/motox3mspookyland.html">Moto X3M Spookyland</a></li>
+        <li><a href="offline/motox3mwinter.html">Moto X3M Winter</a></li>
+        <li><a href="offline/noobminer.html">Noob Miner</a></li>
+        <li><a href="offline/oppositeday.html">Opposite Day</a></li>
+        <li><a href="offline/ovo.html">OvO</a></li>
+        <li><a href="offline/ovo2.html">OvO 2</a></li>
+        <li><a href="offline/ovo3dimensions.html">OvO 3 Dimensions</a></li>
+        <li><a href="offline/pacman.html">Pacman</a></li>
+        <li><a href="offline/papasbakeria.html">Papa's Bakeria</a></li>
+        <li><a href="offline/papasburgeria.html">Papa's Burgeria</a></li>
+        <li><a href="offline/papascheeseria.html">Papa's Cheeseria</a></li>
+        <li><a href="offline/papascupcakeria.html">Papa's Cupcakeria</a></li>
+        <li><a href="offline/papasdonuteria.html">Papa's Donuteria</a></li>
+        <li><a href="offline/papasfreezeria.html">Papa's Freezeria</a></li>
+        <li><a href="offline/papashotdoggeria.html">Papa's Hot Doggeria</a></li>
+        <li><a href="offline/papaspancakeria.html">Papa's Pancakeria</a></li>
+        <li><a href="offline/papaspastaria.html">Papa's Pastaria</a></li>
+        <li><a href="offline/papaspizzeria.html">Papa's Pizzeria</a></li>
+        <li><a href="offline/papasscooperia.html">Papa's Scooperia</a></li>
+        <li><a href="offline/papassushiria.html">Papa's Sushiria</a></li>
+        <li><a href="offline/papastacomia.html">Papa's Taco Mia</a></li>
+        <li><a href="offline/papaswingeria.html">Papa's Wingeria</a></li>
+        <li><a href="offline/paperio2.htm">Paper.io 2</a></li>
+        <li><a href="offline/parkingfury.html">Parking Fury</a></li>
+        <li><a href="offline/parkingfury2.html">Parking Fury 2</a></li>
+        <li><a href="offline/parkingfury3.html">Parking Fury 3</a></li>
+        <li><a href="offline/picosschool.html">Pico's School</a></li>
+        <li><a href="offline/pingpongchaos.html">Ping Pong Chaos</a></li>
+        <li><a href="offline/pixelspeedrun.html">Pixel Speedrun</a></li>
+        <li><a href="offline/plantsvszombies.html">Plants vs Zombies</a></li>
+        <li><a href="offline/plonky.html">Plonky</a></li>
+        <li><a href="offline/polytrack.html">Polytrack</a></li>
+        <li><a href="offline/poorbunny.html">Poor Bunny</a></li>
+        <li><a href="offline/pou.html">Pou</a></li>
+        <li><a href="offline/ragdollarchers.htm">Ragdoll Archers</a></li>
+        <li><a href="offline/ragdollhit.html">Ragdoll Hit</a></li>
+        <li><a href="offline/ragdollsoccer.html">Ragdoll Soccer</a></li>
+        <li><a href="offline/redball4vol1.html">Red Ball 4 Vol 1</a></li>
+        <li><a href="offline/redball4vol2.html">Red Ball 4 Vol 2</a></li>
+        <li><a href="offline/redball4vol3.html">Red Ball 4 Vol 3</a></li>
+        <li><a href="offline/retrobowl.html">Retro Bowl</a></li>
+        <li><a href="offline/retrobowlcollege.html">Retro Bowl College</a></li>
+        <li><a href="offline/retrohighway.html">Retro Highway</a></li>
+        <li><a href="offline/retropingpong.html">Retro Ping Pong</a></li>
+        <li><a href="offline/riddleschool.html">Riddle School</a></li>
+        <li><a href="offline/riddleschool2.html">Riddle School 2</a></li>
+        <li><a href="offline/riddleschool3.html">Riddle School 3</a></li>
+        <li><a href="offline/riddleschool4.html">Riddle School 4</a></li>
+        <li><a href="offline/riddleschool5.html">Riddle School 5</a></li>
+        <li><a href="offline/riddletransfer.html">Riddle Transfer</a></li>
+        <li><a href="offline/riddletransfer2.html">Riddle Transfer 2</a></li>
+        <li><a href="offline/rocketsoccerderby.html">Rocket Soccer Derby</a></li>
+        <li><a href="offline/rooftopsnipers.htm">Rooftop Snipers</a></li>
+        <li><a href="offline/rooftopsnipers2.html">Rooftop Snipers 2</a></li>
+        <li><a href="offline/run.html">Run</a></li>
+        <li><a href="offline/run2.html">Run 2</a></li>
+        <li><a href="offline/run3.html">Run 3</a></li>
+        <li><a href="offline/sandgame.html">Sand Game</a></li>
+        <li><a href="offline/shortlife.html">Short Life</a></li>
+        <li><a href="offline/slope.html">Slope</a></li>
+        <li><a href="offline/slope2player.html">Slope 2 Player</a></li>
+        <li><a href="offline/slope3.html">Slope 3</a></li>
+        <li><a href="offline/slowroads.html">Slow Roads</a></li>
+        <li><a href="offline/snowballio.html">Snowball.io</a></li>
+        <li><a href="offline/snowrider.htm">Snow Rider</a></li>
+        <li><a href="offline/snowroad.htm">Snow Road</a></li>
+        <li><a href="offline/soccerbros.html">Soccer Bros</a></li>
+        <li><a href="offline/soccerrandom.htm">Soccer Random</a></li>
+        <li><a href="offline/spacebarclicker.html">Spacebar Clicker</a></li>
+        <li><a href="offline/spaceiskey.html">Space is Key</a></li>
+        <li><a href="offline/spaceiskey2.html">Space is Key 2</a></li>
+        <li><a href="offline/spacewaves.html">Space Waves</a></li>
+        <li><a href="offline/speedstars.html">Speed Stars</a></li>
+        <li><a href="offline/sprunki.html">Sprunki</a></li>
+        <li><a href="offline/stack.html">Stack</a></li>
+        <li><a href="offline/stacktris.html">Stacktris</a></li>
+        <li><a href="offline/stateio.html">State.io</a></li>
+        <li><a href="offline/stickarchersbattle.html">Stick Archers Battle</a></li>
+        <li><a href="offline/stickfighter.html">Stick Fighter</a></li>
+        <li><a href="offline/stickmanhook.html">Stickman Hook</a></li>
+        <li><a href="offline/stickmerge.html">Stick Merge</a></li>
+        <li><a href="offline/subwaysurfersbeijing.html">Subway Surfers Beijing</a></li>
+        <li><a href="offline/subwaysurfershavana.html">Subway Surfers Havana</a></li>
+        <li><a href="offline/subwaysurferssanfrancisco.html">Subway Surfers San Francisco</a></li>
+        <li><a href="offline/sm63.html">Super Mario 63</a></li>
+        <li><a href="offline/sm64.html">Super Mario 64</a></li>
+        <li><a href="offline/superbikethechampion.html">Superbike the Champion</a></li>
+        <li><a href="offline/superhot.html">Superhot</a></li>
+        <li><a href="offline/superliquidsoccer.html">Super Liquid Soccer</a></li>
+        <li><a href="offline/superstarcar.html">Super Star Car</a></li>
+        <li><a href="offline/tabletennisworldtour.html">Table Tennis World Tour</a></li>
+        <li><a href="offline/tag.html">Tag</a></li>
+        <li><a href="offline/taproad.html">Tap Road</a></li>
+        <li><a href="offline/templeofboom.html">Temple of Boom</a></li>
+        <li><a href="offline/templerun2.htm">Temple Run 2</a></li>
+        <li><a href="offline/territorialio.html">Territorial.io</a></li>
+        <li><a href="offline/theimpossiblequiz.html">The Impossible Quiz</a></li>
+        <li><a href="offline/theimpossiblequiz2.html">The Impossible Quiz 2</a></li>
+        <li><a href="offline/thereisnog.html">There Is No Game</a></li>
+        <li><a href="offline/theyarecoming.html">They Are Coming</a></li>
+        <li><a href="offline/thisistheonlylevel.html">This Is The Only Level</a></li>
+        <li><a href="offline/thisistheonlyleveltoo.html">This Is The Only Level Too</a></li>
+        <li><a href="offline/timeshooter2.html">Time Shooter 2</a></li>
+        <li><a href="offline/timeshooter3.htm">Time Shooter 3</a></li>
+        <li><a href="offline/tinyfishing.html">Tiny Fishing</a></li>
+        <li><a href="offline/tombofthemask.htm">Tomb of the Mask</a></li>
+        <li><a href="offline/trapthecat.html">Trap the Cat</a></li>
+        <li><a href="offline/triviacrack.html">Trivia Crack</a></li>
+        <li><a href="offline/tubejumpers.html">Tube Jumpers</a></li>
+        <li><a href="offline/tunnelrush.html">Tunnel Rush</a></li>
+        <li><a href="offline/unicyclehero.html">Unicycle Hero</a></li>
+        <li><a href="offline/vex4.html">Vex 4</a></li>
+        <li><a href="offline/vex5.html">Vex 5</a></li>
+        <li><a href="offline/vex6.htm">Vex 6</a></li>
+        <li><a href="offline/vex7.htm">Vex 7</a></li>
+        <li><a href="offline/vex8.htm">Vex 8</a></li>
+    <script>
+        
+        function filterGames() {
+            let input = document.getElementById('search').value.toLowerCase();
+            let games = document.querySelectorAll('#game-list li');
+            games.forEach(game => {
+                let name = game.innerText.toLowerCase();
+                game.style.display = name.includes(input) ? "block" : "none";
+            });
+        }
+
+        // Cloaking Logic
+        function toggleSettings() {
+            const modal = document.getElementById('settings-modal');
+            const overlay = document.getElementById('overlay');
+            const isVisible = modal.style.display === 'block';
+            modal.style.display = isVisible ? 'none' : 'block';
+            overlay.style.display = isVisible ? 'none' : 'block';
+        }
+
+        function saveSettings() {
+            const newTitle = document.getElementById('pref-title').value;
+            const newIcon = document.getElementById('pref-icon').value;
+
+            if (newTitle) {
+                document.title = newTitle;
+                localStorage.setItem('echoman-title', newTitle);
+            }
+            if (newIcon) {
+                document.getElementById('tab-favicon').href = newIcon;
+                localStorage.setItem('echoman-icon', newIcon);
+            }
+            toggleSettings();
+        }
+
+        
+        window.onload = function() {
+            const savedTitle = localStorage.getItem('echoman-title');
+            const savedIcon = localStorage.getItem('echoman-icon');
+            if (savedTitle) document.title = savedTitle;
+            if (savedIcon) document.getElementById('tab-favicon').href = savedIcon;
+        }
+    </script>
+    
+    <script>
+    
+    const AUTO_TITLE = "Home - Classroom"; 
+    const AUTO_ICON  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABsklEQVQYV6WPMY9MYRSGnzO5K5mrsczINCujkBh3ihU1CX9BMSsKtqTQ6mzDr5BFQiLRSkRoFRu7icIQ3YoCESHL3DEbmfMqzjc3d1BxmvPlS97nPK9J4n8mm75Yvsz00zkzYTYPkwypAbJ4e2xkyBuw0LpvPzfaMpURrgMUAIhgBZGBGgGznIzpGMx4OW7xatLGbBYGJJTecoHHu2h+pZ/vgP8gQ4YQw3GbB1+OQgIgkS80kYvR7igBHLkzaImi+Q1kZKEJuJB71WDvnpy1M1dBsPb0BqNJiWpGqSWN6GRJ05ELubiwvEJ33xLdxSVWT5xHVRclw8ilCoY89STwt7fu0V08BMD687thKM1biKhgM3CtwmhScu3xdSRR7pZVuPInDicDknoA+p0eRecY/U4PgOGH12y83WT783aAHDSrIBlAquBcOXmJ00dOUZ+i02Nw/CwPh4+4+exWfMqQjExuYIDC4vdwfQ7v786FEWSoAYiiucPgwDuGb9bnQlVloCw/stJ+T5F/j4MyrHxyUKCw+NsIIK4pbbAAy8gkWwUu2uzSDKT6+jMIINkdU93xH+YXTrImgXmBBtYAAAAASUVORK5CYII="; 
+
+    (function() {
+        if (AUTO_TITLE) {
+            document.title = AUTO_TITLE;
+        }
+        if (AUTO_ICON) {
+            let icon = document.getElementById('tab-favicon') || document.querySelector("link[rel*='icon']");
+            if (icon) {
+                icon.href = AUTO_ICON;
+            } else {
+                let newIcon = document.createElement('link');
+                newIcon.rel = 'icon';
+                newIcon.href = AUTO_ICON;
+                document.head.appendChild(newIcon);
+            }
+        }
+    })();
+</script>
+
+</body>
+</html>
+
