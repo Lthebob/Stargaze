@@ -31,8 +31,8 @@
         .grid li:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         .grid a { display: block; padding: 25px 15px; color: var(--text); text-decoration: none; text-align: center; font-weight: 600; font-size: 16px; }
 
-        .settings-btn { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: black; border: none; padding: 12px 20px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: bold; z-index: 1000; box-shadow: 0 0 10px var(--accent); }
-        #settings-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a1e; padding: 30px; border-radius: 15px; border: 2px solid var(--accent); z-index: 1001; width: 320px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .settings-btn { position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: black; border: none; padding: 12px 20px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; font-weight: bold; z-index: 999; }
+        #settings-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1a1a1e; padding: 30px; border-radius: 15px; border: 2px solid var(--accent); z-index: 1001; max-width: 400px; width: 90%; }
         #settings-modal h2 { margin-top: 0; color: var(--accent); font-family: 'Orbitron'; font-size: 18px; }
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
         input[type="text"] { width: 100%; padding: 10px; margin: 10px 0; background: #222; color: white; border: 1px solid #444; border-radius: 5px; box-sizing: border-box; }
@@ -58,7 +58,7 @@
     </div>
 
     <div class="header">
-        <h1>Echoman Game Hub</h1> <div class="header">
+        <h1>StarGaze</h1>
         
         <div class="status-box">
             <h4>System Notice</h4>
@@ -82,6 +82,7 @@
         <li><a href="offline/8ballclassic.html">8 Ball Classic</a></li>
         <li><a href="offline/agariolite.html">Agario Lite</a></li>
         <li><a href="offline/ageofwar2.html">Age of War 2</a></li>
+        <li><a href="offline/ageofwar.html">Age of War</a></li>
         <li><a href="offline/awesometanks.html">Awesome Tanks</a></li>
         <li><a href="offline/awesometanks2.html">Awesome Tanks 2</a></li>
         <li><a href="offline/backrooms.html">Backrooms</a></li>
@@ -346,6 +347,8 @@
         <li><a href="offline/vex6.htm">Vex 6</a></li>
         <li><a href="offline/vex7.htm">Vex 7</a></li>
         <li><a href="offline/vex8.htm">Vex 8</a></li>
+    </ul>
+
     <script>
         
         function filterGames() {
@@ -393,7 +396,7 @@
     <script>
     
     const AUTO_TITLE = "Home - Classroom"; 
-    const AUTO_ICON  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABsklEQVQYV6WPMY9MYRSGnzO5K5mrsczINCujkBh3ihU1CX9BMSsKtqTQ6mzDr5BFQiLRSkRoFRu7icIQ3YoCESHL3DEbmfMqzjc3d1BxmvPlS97nPK9J4n8mm75Yvsz00zkzYTYPkwypAbJ4e2xkyBuw0LpvPzfaMpURrgMUAIhgBZGBGgGznIzpGMx4OW7xatLGbBYGJJTecoHHu2h+pZ/vgP8gQ4YQw3GbB1+OQgIgkS80kYvR7igBHLkzaImi+Q1kZKEJuJB71WDvnpy1M1dBsPb0BqNJiWpGqSWN6GRJ05ELubiwvEJ33xLdxSVWT5xHVRclw8ilCoY89STwt7fu0V08BMD687thKM1biKhgM3CtwmhScu3xdSRR7pZVuPInDicDknoA+p0eRecY/U4PgOGH12y83WT783aAHDSrIBlAquBcOXmJ00dOUZ+i02Nw/CwPh4+4+exWfMqQjExuYIDC4vdwfQ7v786FEWSoAYiiucPgwDuGb9bnQlVloCw/stJ+T5F/j4MyrHxyUKCw+NsIIK4pbbAAy8gkWwUu2uzSDKT6+jMIINkdU93xH+YXTrImgXmBBtYAAAAASUVORK5CYII="; 
+    const AUTO_ICON  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABsklEQVQYV6WPMY9MYRSGnzO5K5mrsczINCujkBh3ihU1CX9BMSsKtqTQ6mzDr5BFQiLRSkRoFRu7icIQ3YoCESHL3DEbmfMqzjc3d";
 
     (function() {
         if (AUTO_TITLE) {
@@ -415,4 +418,3 @@
 
 </body>
 </html>
-
