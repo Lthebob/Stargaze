@@ -10,7 +10,7 @@ DIRECTIONS!!
 4. Navigate to the "settings" tab at the top of your screen
 5. On the side bar, scroll down until you see the "pages" option. Click it
 6. Under "Source", Select "Deploy from a branch"
-7. Under "Branch", select "Main"
+7. Under "Branch", select "Main". Make sure it is also set to /(root)
 8. Click save
 9. Wait 2-4 minutes, then refresh the page. GitHub will build your own copy of StarGaze, that you can use with a custom link!
 
