@@ -15,3 +15,5 @@ DIRECTIONS!!
 9. Wait 2-4 minutes, then refresh the page. GitHub will build your own copy of StarGaze, that you can use with a custom link!
 
 Huge thank you to echomanw32-hub for providing the base code, as well as the collection of HTML files. I hope you enjoy 
+
+Also, I have to give a huge thank you to top eagler servers for helping me run my eaglercraft server! Eaglercraft will be coming soon to StarGaze, and without them, I couldnt have nearly as much fun with my friends! Be sure to check out their free hosting service at https://topeaglerservers.com/
